@@ -12,7 +12,7 @@ import {RentService} from  '../../services/rent.service';
 export class VehiclesListComponent implements OnInit {
 
   //ATTIBUTES
-  vehicle:any;
+  datosBusqueda:any;
   checkoutFormFilter:any;
   progressBar:number;
 
@@ -22,14 +22,14 @@ export class VehiclesListComponent implements OnInit {
     this.progressBar=0;
     this.rentService.postSearch().subscribe( //se busca en la sucursal
       res=>{
-        this.vehicle=res;  //almaceno la respuesta en vehiculo
+        this.datosBusqueda=res;  //almaceno la respuesta en vehiculo
       },
       err=>console.error(err)
     );
     this.checkoutFormFilter=this.formBuilder.group({ //se inicializa el formulario de filtro
       tipo:"",
       marca:"",
-      modelo:"",
+      color:"",
       anio:"",
       kilometraje:""
     });  
@@ -39,7 +39,7 @@ export class VehiclesListComponent implements OnInit {
     // Process checkout data here
     this.rentService.postFilter(customerFilter).subscribe(
       res=>{
-        this.vehicle=res;  //almaceno la respuesta en vehiculo
+        this.datosBusqueda=res;  //almaceno la respuesta en vehiculo
       },
       err=>console.error(err)
     );

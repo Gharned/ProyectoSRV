@@ -10,33 +10,40 @@
     <div class="row">
         <div class="col-md-6">
             <form [formGroup]="checkoutFormClient" (ngSubmit)="onSubmit(checkoutFormClient.value)">
-                <div class="row">
+                <div class="row was-validated">
                     <label>Rut</label>
-                    <input type="text" name="rut_cliente" formControlName="rut_cliente" class="form-control" placeholder="123456789">
+                    <input type="number" name="rut_cliente" formControlName="rut_cliente" class="form-control" placeholder="123456789" required>
+                    <div class="invalid-feedback">Ingrese rut sin guion ni puntos</div>
                 </div>
-                <div class="row">
+                <div class="row was-validated">
                     <label>Primer nombre</label>
-                    <input type="text" name="primer_nom" formControlName="primer_nom" class="form-control" placeholder="Nombre">
+                    <input type="text" name="primer_nom" formControlName="primer_nom" class="form-control" placeholder="Nombre" required>
+                    <div class="invalid-feedback">Ingrese su primer nombre</div>
                 </div>
-                <div class="row">
+                <div class="row was-validated">
                     <label>Apellido Paterno</label>
-                    <input type="text" name="apellido_pat" formControlName="apellido_pat" class="form-control" placeholder="Paterno">
+                    <input type="text" name="apellido_pat" formControlName="apellido_pat" class="form-control" placeholder="Paterno" required>
+                    <div class="invalid-feedback">Ingrese el apellido paterno</div>
                 </div>
-                <div class="row">
+                <div class="row was-validated">
                     <label>Apellido Materno</label>
-                    <input type="text" name="apellido_mat" formControlName="apellido_mat" class="form-control" placeholder="Materno">
+                    <input type="text" name="apellido_mat" formControlName="apellido_mat" class="form-control" placeholder="Materno" required>
+                    <div class="invalid-feedback">Ingrese el apellido materno</div>
                 </div>
-                <div class="row">
+                <div class="row was-validated">
                     <label>Telefono</label>
-                    <input type="text" name="telefono" formControlName="telefono" class="form-control" placeholder="9xxxxxxxx">
+                    <input type="tel" name="telefono" formControlName="telefono" pattern="[0-9]{9}" class="form-control" placeholder="9xxxxxxxx" required>
+                    <div class="invalid-feedback">Ingrese su telefono</div>
                 </div>
-                <div class="row">
+                <div class="row was-validated">
                     <label>Email</label>
-                    <input type="text" name="email" formControlName="email" class="form-control" placeholder="email@dominio.x">
+                    <input type="email" name="email" formControlName="email" class="form-control" placeholder="email@dominio.x" required>
+                    <div class="invalid-feedback">Ingrese su email</div>
                 </div>
-                <div class="row">
+                <div class="row was-validated">
                     <label>Fecha de nacimiento</label>
-                    <input type="text" name="fecha_nac" formControlName="fecha_nac" class="form-control" placeholder="YYYY-MM-DD">
+                    <input type="date" name="fecha_nac" formControlName="fecha_nac" class="form-control" placeholder="YYYY-MM-DD" required>
+                    <div class="invalid-feedback">Ingrese su fecha de nacimiento</div>
                 </div><br>
                 <button type="submit" class="btn btn-primary">Finalizar</button>
             </form>

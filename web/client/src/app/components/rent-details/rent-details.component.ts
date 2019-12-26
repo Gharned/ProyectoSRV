@@ -35,18 +35,18 @@ export class RentDetailsComponent implements OnInit {
   }
 
   onSubmit(customerForm) { //se verifica el formulario de filtro
-    // Process checkout data here
-    
-    this.rentService.postFinishReserve(customerForm).subscribe(
-      res=>{
-        console.log(res);
-      },
-      err=>{
-        console.log(err);
-      }
-    );
-    this.checkoutFormClient.reset();
-    this.router.navigate(['/rent']); //cuando almacene los valores, lo envio a la ruta principal
+    if( !(customerForm.rut_cliente=="") && !(customerForm.primer_nom=="") && !(customerForm.apellido_pat=="") && !(customerForm.apellido_mat=="") && !(customerForm.telefono=="") && !(customerForm.email=="") && !(customerForm.fecha_nac=="") ){
+      this.rentService.postFinishReserve(customerForm).subscribe(
+        res=>{
+          console.log(res);
+        },
+        err=>{
+          console.log(err);
+        }
+      );
+      this.checkoutFormClient.reset();
+      this.router.navigate(['/rent']); //cuando almacene los valores, lo envio a la ruta principal
+    }
     
   }
 

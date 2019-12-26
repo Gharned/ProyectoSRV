@@ -17,11 +17,19 @@ class RentController{
 
         RentController.dataStore.region_retiro=region_r[0].region;  //ya que es rowData rento que usar indice
         RentController.dataStore.region_devolucion=region_d[0].region;
-
-        //console.log(RentController.dataStore);
-        
+        //vehiculos de la sucursal disponibles
         const vehiculos = await pool.query('select matricula,tipo,marca,modelo,color,anio,kilometraje,precio,image_url from Vehiculo where estado=0 and id_sucursal=?',[RentController.dataStore.local_retiro]);
-        res.send(vehiculos);
+
+        const tipos= await pool.query('select distinct tipo from Vehiculo');
+        const marcas= await pool.query('select distinct marca from Vehiculo');
+        const colores= await pool.query('select distinct color from Vehiculo');
+        const anios= await pool.query('select distinct anio from Vehiculo');
+        const kilometrajes= await pool.query('select distinct kilometraje from Vehiculo');
+        const filtrado={tipos,marcas,colores,anios,kilometrajes}; //guardara los datos del filtrado
+
+        const datosBusqueda={vehiculos,filtrado};
+        
+        res.send(datosBusqueda);
     }
 
     public async filter(req:Request, res:Response){
@@ -34,8 +42,18 @@ class RentController{
             }
         }
         //vehiculos filtrados
-        const fVehiculos= await pool.query('select matricula,tipo,marca,modelo,color,anio,kilometraje,precio,image_url from Vehiculo where estado=0 and id_sucursal=?'+resultado+';',[RentController.dataStore.local_retiro]);
-        res.send(fVehiculos);    
+        const vehiculos= await pool.query('select matricula,tipo,marca,modelo,color,anio,kilometraje,precio,image_url from Vehiculo where estado=0 and id_sucursal=?'+resultado+';',[RentController.dataStore.local_retiro]);
+        
+        const tipos= await pool.query('select distinct tipo from Vehiculo');
+        const marcas= await pool.query('select distinct marca from Vehiculo');
+        const colores= await pool.query('select distinct color from Vehiculo');
+        const anios= await pool.query('select distinct anio from Vehiculo');
+        const kilometrajes= await pool.query('select distinct kilometraje from Vehiculo');
+        const filtrado={tipos,marcas,colores,anios,kilometrajes}; //guardara los datos del filtrado
+
+        const datosBusqueda={vehiculos,filtrado};
+
+        res.send(datosBusqueda);    
     }
     
     public async reserveVehicle(req:Request, res:Response){
