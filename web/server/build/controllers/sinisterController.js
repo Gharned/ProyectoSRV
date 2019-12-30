@@ -17,11 +17,17 @@ class SinisterController {
     showSinister(req, res) {
         res.send("Estoy en la vista siniestro");
     }
-    sentSiniestro(req, res) {
+    getMatriculaVehiculo(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const matriculas = yield database_1.default.query('select matricula from Vehiculo');
+            res.send(matriculas);
+        });
+    }
+    sendSiniestro(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             var formulario = req.body;
-            yield database_1.default.query('insert into Siniestro (matricula,fecha_siniestro,descripcion,nombre_respon) values (?,?,?,?)', [formulario.matricula, formulario.fecha_siniestro, formulario.descripcion, formulario.nombre_respon]);
-            res.send({ message: 'Exito' });
+            const result = yield database_1.default.query('insert into Siniestro (matricula,fecha_siniestro,descripcion,nombre_respon,email,estado) values (?,?,?,?,?,"En Espera")', [formulario.matricula, formulario.fecha_siniestro, formulario.descripcion, formulario.nombre_respon, formulario.email]);
+            res.send(result);
         });
     }
 }

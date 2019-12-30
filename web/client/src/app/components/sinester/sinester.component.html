@@ -1,0 +1,34 @@
+
+<div class="container">
+    <div class="col">
+        <form [formGroup]="checkoutFormSinester" (ngSubmit)="onSubmit(checkoutFormSinester.value)">
+            <div class="row was-validated">
+                <label>Matricula</label>
+                <input type="text" name="matricula" formControlName="matricula" class="form-control" required>
+                <div class="invalid-feedback">Ingrese la matricula del vehiculo</div>
+            </div>
+            <div class="row was-validated">
+                <label>Nombre responsable</label>
+                <input type="text" name="nombre_respon" formControlName="nombre_respon" class="form-control" placeholder="Nombre" required>
+                <div class="invalid-feedback">Ingrese el nombre del responsable</div>
+            </div>
+            <div class="row was-validated">
+                <label>Email</label>
+                <input type="text" name="email" formControlName="email" class="form-control" placeholder="example@dominio.x" required>
+                <div class="invalid-feedback">Ingrese el Email de contacto</div>
+            </div>
+            <div class="row was-validated">
+                <label>Descripcion</label>
+                <input type="text" name="descripcion" formControlName="descripcion" class="form-control" required>
+                <div class="invalid-feedback">Describa que fue lo que le paso al vehiculo y a la persona responsable</div>
+            </div>
+            <div class="row was-validated">
+                <label>Fecha siniestro</label>
+                <input type="date" name="fecha_siniestro" formControlName="fecha_siniestro" class="form-control" placeholder="YYYY-MM-DD" required>
+                <div class="invalid-feedback">Ingresar fecha en la que sucedio el suceso</div>
+            </div><br>
+            <ngb-alert *ngIf="errorMessage" type="danger" (close)="errorMessage = null">{{ errorMessage }}</ngb-alert>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+    </div>
+</div>

@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import {RentComponent} from './components/rent/rent.component';
 import { VehiclesListComponent } from './components/vehicles-list/vehicles-list.component';
 import { RentDetailsComponent } from './components/rent-details/rent-details.component';
+import { SinesterComponent } from "./components/sinester/sinester.component";
 
 //me permite definir rutas de mi app
 const routes: Routes = [
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     path:'rent/reserve/:matricula',
     component:RentDetailsComponent
+  },
+  {
+    path:'sinester',
+    component:SinesterComponent
   }
 ];
 

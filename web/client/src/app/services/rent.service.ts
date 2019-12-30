@@ -68,5 +68,10 @@ export class RentService {
   postFinishReserve(customerForm:any){ //se envia el formulario de los datos del clientes
     return this.http.post(`${this.API_URI}/rent/finalizar`,customerForm);
   }
-
+  postSinester(sinesterForm:any){ //se envia el formulario de siniestro
+    return this.http.post(`${this.API_URI}/sinister/send`,sinesterForm);
+  }
+  getMatriculaVehiculo(){
+      return this.http.get(`${this.API_URI}/sinister/mat`);
+  }
 }

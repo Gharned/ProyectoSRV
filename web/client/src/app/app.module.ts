@@ -14,6 +14,7 @@ import { RentDetailsComponent } from './components/rent-details/rent-details.com
 import { DatepickerComponent } from './components/datepicker/datepicker.component';
 import { TimepickerComponent } from './components/timepicker/timepicker.component';
 import { LoginBarComponent } from './components/login-bar/login-bar.component';
+import { SinesterComponent } from './components/sinester/sinester.component';
 //import { AlertMessageComponent } from './components/alert-message/alert-message.component'; //es un componente
 
 
@@ -27,6 +28,7 @@ import { LoginBarComponent } from './components/login-bar/login-bar.component';
     DatepickerComponent,
     TimepickerComponent,
     LoginBarComponent,
+    SinesterComponent,
   //  AlertMessageComponent
   ],
   imports: [

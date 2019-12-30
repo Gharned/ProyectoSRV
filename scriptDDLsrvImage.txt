@@ -89,9 +89,11 @@ foreign key(rut_empleado) references Empleado(rut_empleado) ON UPDATE CASCADE ON
 create table Siniestro(
 id_siniestro integer auto_increment,
 matricula varchar(6),
-fecha_siniestro date,
+nombre_respon varchar(30) not null,
+email varchar(50) not null,
 descripcion text,
-nombre_respon varchar(30),
+fecha_siniestro date not null,
+estado enum('En Espera', 'Aceptada', 'Rechazada'),
 primary key(id_siniestro),
 foreign key(matricula) references Vehiculo(matricula) ON UPDATE CASCADE ON DELETE CASCADE
 );

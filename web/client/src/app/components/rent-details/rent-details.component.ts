@@ -47,7 +47,6 @@ export class RentDetailsComponent implements OnInit {
       this.checkoutFormClient.reset();
       this.router.navigate(['/rent']); //cuando almacene los valores, lo envio a la ruta principal
     }
-    
   }
 
 }

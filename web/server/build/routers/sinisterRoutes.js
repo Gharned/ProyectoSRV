@@ -13,7 +13,8 @@ class SinisterRoutes {
     }
     config() {
         this.router.get('/', sinisterController_1.default.showSinister); //visualizara la pagina siniestro
-        this.router.post('/send', sinisterController_1.default.sentSiniestro);
+        this.router.post('/send', sinisterController_1.default.sendSiniestro); //envio el formulario
+        this.router.get('/mat', sinisterController_1.default.getMatriculaVehiculo); //obtengo matriculas de vehiculos
     }
 }
 const sinisterRoutes = new SinisterRoutes();

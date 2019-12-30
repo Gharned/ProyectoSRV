@@ -7,10 +7,16 @@ class SinisterController{
     public showSinister(req:Request, res:Response){ //visualiza la pagina siniestro
         res.send("Estoy en la vista siniestro");
     }
-    public async sentSiniestro(req:Request, res:Response){  //envia el formulario rellenado
+
+    public async getMatriculaVehiculo(req:Request, res:Response){ //obtengo las matriculas de los vehiculos para comprobar si es que existe
+        const matriculas=await pool.query('select matricula from Vehiculo');
+        res.send(matriculas);
+    }
+
+    public async sendSiniestro(req:Request, res:Response){  //envia el formulario rellenado
         var formulario=req.body;
-        await pool.query('insert into Siniestro (matricula,fecha_siniestro,descripcion,nombre_respon) values (?,?,?,?)',[formulario.matricula,formulario.fecha_siniestro,formulario.descripcion,formulario.nombre_respon]);
-        res.send({message:'Exito'});
+        const result=await pool.query('insert into Siniestro (matricula,fecha_siniestro,descripcion,nombre_respon,email,estado) values (?,?,?,?,?,"En Espera")',[formulario.matricula,formulario.fecha_siniestro,formulario.descripcion,formulario.nombre_respon,formulario.email]);
+        res.send(result);
     }
 }
 
