@@ -9,7 +9,7 @@ class RentController{
     private static dataStore: any; //static me ayuda en la solucion para ser usada sin una instansiar
     
     //METHODS
-    public async search(req:Request, res:Response){ //despues le pongo async
+    public async search(req:Request, res:Response){
         RentController.dataStore=req.body; //se obtiene, fecha_dev, fecha_ret, local_dev y local_dev
 
         const region_r = await pool.query('select region from Direccion_sucursal where id_sucursal=?',[RentController.dataStore.local_retiro]); //asigno region ret
@@ -74,7 +74,6 @@ class RentController{
     }
 
     public async finishied(req:Request, res:Response){
-        
         const cliente=req.body;
         RentController.dataStore.rut_cliente=cliente.rut_cliente;
         RentController.dataStore.estado='En Curso';

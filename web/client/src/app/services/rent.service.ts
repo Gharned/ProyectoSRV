@@ -71,7 +71,7 @@ export class RentService {
   postSinester(sinesterForm:any){ //se envia el formulario de siniestro
     return this.http.post(`${this.API_URI}/sinister/send`,sinesterForm);
   }
-  getMatriculaVehiculo(){
+  getMatriculaVehiculo(){ //obtengo matriculasd de los vehiculos para validar la existencia en siniestro
       return this.http.get(`${this.API_URI}/sinister/mat`);
   }
 }
