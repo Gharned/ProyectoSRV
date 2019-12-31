@@ -15,7 +15,8 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup; //datos del formulario del login
   loading = false; //para dar el estado de carga al enviar
   submitted = false; //para saber si el formulario fue enviado
-  returnUrl: string;
+  existeUsuario=true;
+  //returnUrl: string;
   
   constructor(private formBuilder: FormBuilder,private route: ActivatedRoute,private router: Router,private authenticationService: AuthenticationService,private alertService:AlertService) {
     // redirecciona a home si antes ya inicio sesion
@@ -29,8 +30,6 @@ export class LoginComponent implements OnInit {
         rut_empleado: ['', Validators.required],
         contrasena: ['', Validators.required]
     });
-    // se enviara a la siguiente ruta cuando se haya enviado el formulario
-    this.returnUrl='employee/rents';
   }
 
   // Obtencion de conveniencia para un fácil acceso a los campos de formulario
@@ -38,7 +37,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-
+    this.existeUsuario=true;
     // reinicia el alert en onSubmit
     this.alertService.clear();
 
@@ -51,12 +50,19 @@ export class LoginComponent implements OnInit {
     this.authenticationService.login(this.f.rut_empleado.value, this.f.contrasena.value)
         .pipe(first())
         .subscribe(
-            data => { //data contiene la informacion del empleado
-                this.router.navigate([this.returnUrl]);//ver donde redireccionar la ruta, dependiendo del cargo                                        this.returnUrl]);
+            data => { //data contiene la informacion del empleado y vemos donde redireccionar la ruta, dependiendo del cargo 
+              if(data[0].cargo=='Rentador'){ //pregunto si cargo es igual rentador
+                this.router.navigate(['employee/menu-rentador']);
+              }else{
+                if(data[0].cargo=='Administrador'){
+                  this.router.navigate(['employee/menu-admin']);
+                }
+              }
             },
             error => {
                 this.alertService.error(error);
                 this.loading = false;
+                this.existeUsuario=false;
             });
 }
   

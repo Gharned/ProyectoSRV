@@ -15,8 +15,10 @@ import { DatepickerComponent } from './components/datepicker/datepicker.componen
 import { TimepickerComponent } from './components/timepicker/timepicker.component';
 import { SinesterComponent } from './components/sinester/sinester.component';
 import { LoginComponent } from './components/login/login.component';
-import { RentsEmployeeComponent } from './components/rents-employee/rents-employee.component';
 import { AlertComponent } from './components/alert/alert.component';
+import { MenuERentadorComponent } from './components/menu-e-rentador/menu-e-rentador.component';
+import { RentsListComponent } from './components/rents-list/rents-list.component';
+import { MenuEAdminComponent } from './components/menu-e-admin/menu-e-admin.component';
 
 
 @NgModule({
@@ -30,8 +32,10 @@ import { AlertComponent } from './components/alert/alert.component';
     TimepickerComponent,
     SinesterComponent,
     LoginComponent,
-    RentsEmployeeComponent,
     AlertComponent,
+    MenuERentadorComponent,
+    RentsListComponent,
+    MenuEAdminComponent,
   ],
   imports: [
     BrowserModule,

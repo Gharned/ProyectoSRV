@@ -16,7 +16,7 @@
                     <select class="custom-select" (change)="incrementProgressBar('local_ret')" formControlName="local_retiro" required>
                         <option *ngFor="let suc of sucursales" [value]="suc.id_sucursal">{{suc.region}}, {{suc.ciudad}}, {{suc.calle}} {{suc.numero}} </option>
                     </select>
-                    <div class="invalid-feedback">Seleccione la fecha de retiro</div>
+                    <div class="invalid-feedback">Seleccione la sucursal de retiro</div>
                 </div>
             </div>
         
@@ -27,7 +27,7 @@
                         <select class="custom-select" (change)="incrementProgressBar('local_dev')" formControlName="local_devolucion" required>
                             <option *ngFor="let suc of sucursales" [value]="suc.id_sucursal">{{suc.region}}, {{suc.ciudad}}, {{suc.calle}} {{suc.numero}} </option>
                         </select>
-                        <div class="invalid-feedback">Seleccione la fecha de devolucion</div>
+                        <div class="invalid-feedback">Seleccione la sucursal de devolucion</div>
                     </div>
             </div>
         </div>

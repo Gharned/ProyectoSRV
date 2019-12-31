@@ -25,6 +25,7 @@
                     </button>
                 </div>
             </form>
+            <div *ngIf="existeUsuario==false" class="alert alert-danger" role="alert">No existe el usuario o la contrasena es erronea</div>
         </div>
         <div class="col-md-4"></div>
     </div>

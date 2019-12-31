@@ -48,4 +48,13 @@ export class AuthenticationService {
     }
     return false;
   }
+
+  public isAuthenticatedOnAdmin():Boolean{ //se autentifica que el usuario este logeado y sea Administrador
+    if(this.currentUser!=null){ //si no es null, significa que ya inicio sesion
+      if(this.currentUserSubject.getValue()[0].cargo=='Administrador'){ //si es admin se le permite ingresar a esa ruta
+        return true;
+      }
+    }
+    return false;
+  }
 }

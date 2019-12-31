@@ -1,0 +1,32 @@
+<table class="table"> <!--Se muestran las rentas de la sucursal donde se encuentra el empleado-->
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Rut cliente</th>
+        <th scope="col">Matricula</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Fecha_retiro</th>
+        <th scope="col">Local Retiro</th>
+        <th scope="col">Fecha devolucion</th>
+        <th scope="col">Local devolucion</th>
+        <th scope="col">Accion</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let renta of rentas">
+        <th scope="row">{{renta.id_renta}}</th>
+        <td>{{renta.rut_cliente}}</td>
+        <td>{{renta.matricula}}</td>
+        <td>{{renta.estado}}</td>
+        <td>{{renta.fecha_retiro | date:'short'}}</td>
+        <td>{{renta.local_retiro}}</td>
+        <td>{{renta.fecha_devolucion | date:'short'}}</td>
+        <td>{{renta.local_devolucion}}</td>
+        <td>
+          <label class="btn btn-secondary active">
+            <input type="radio" name="options" id="option{{renta.id_renta}}" autocomplete="off" checked> Detalles
+          </label>
+        </td>
+      </tr>
+    </tbody>
+</table>

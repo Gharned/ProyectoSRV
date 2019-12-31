@@ -5,7 +5,9 @@ import { VehiclesListComponent } from './components/vehicles-list/vehicles-list.
 import { RentDetailsComponent } from './components/rent-details/rent-details.component';
 import { SinesterComponent } from "./components/sinester/sinester.component";
 import { LoginComponent } from "./components/login/login.component";
-import { RentsEmployeeComponent } from "./components/rents-employee/rents-employee.component";
+import { MenuERentadorComponent } from "./components/menu-e-rentador/menu-e-rentador.component";
+import { RentsListComponent } from "./components/rents-list/rents-list.component";
+import { MenuEAdminComponent } from "./components/menu-e-admin/menu-e-admin.component";
 import { AuthGuard } from "./auth/auth.guard";
 
 //me permite definir rutas de mi app
@@ -20,7 +22,9 @@ const routes: Routes = [
   {path:'rent/reserve/:matricula',component:RentDetailsComponent},
   {path:'sinester',component:SinesterComponent},
   {path:'login',component:LoginComponent},
-  {path:'employee/rents',component:RentsEmployeeComponent,canActivate: [AuthGuard]}
+  {path:'employee/menu-rentador',component:MenuERentadorComponent,canActivate:[AuthGuard]},
+  {path:'employee/rents-list',component:RentsListComponent,canActivate:[AuthGuard]},
+  {path:'employee/menu-admin',component:MenuEAdminComponent,canActivate:[AuthGuard]}
 ];
 
 @NgModule({

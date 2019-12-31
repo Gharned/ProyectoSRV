@@ -19,14 +19,20 @@ class EmployeeController {
         return __awaiter(this, void 0, void 0, function* () {
             const data = req.body; //almacena rut_empleado y contrasena
             const existe = yield database_1.default.query('select e.*,ne.primer_nom,ne.apellido_pat,ne.apellido_mat from Empleado as e inner join Nombre_empleado as ne on e.rut_empleado=ne.rut_empleado where e.rut_empleado=? and e.contrasena=?', [data.rut_empleado, data.contrasena]);
-            //existe[0].token="fake-jwt-token";
-            res.send(existe); //REVISAR
+            if (existe.length > 0) {
+                existe[0].token = "fake-jwt-token"; //token - se vera para que nos servira
+                res.send(existe); //existe el usuario
+            }
+            else {
+                res.send(Error); //no existe el usuario
+            }
         });
     }
     //CONTROLADOR PARA EL RENTADOR
     getRentList(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const rents = yield database_1.default.query('select * from Renta'); //termina cuando pueda
+            const id_sucursal = req.params.id_sucursal; //sucursal del empleado
+            const rents = yield database_1.default.query('select * from Renta where local_retiro=? or local_devolucion=?;', [id_sucursal, id_sucursal]);
             res.send(rents);
         });
     }

@@ -3,20 +3,26 @@ import pool from "../database";
 
 class EmployeeController{
 
-
     //Controlador de login y envío de datos
     public async postAuthenEmployee(req:Request, res:Response):Promise<void>{  //autentifico y obtengo los detalles del empleado junto a su nombre
         const data=req.body; //almacena rut_empleado y contrasena
         const existe=await pool.query('select e.*,ne.primer_nom,ne.apellido_pat,ne.apellido_mat from Empleado as e inner join Nombre_empleado as ne on e.rut_empleado=ne.rut_empleado where e.rut_empleado=? and e.contrasena=?',[data.rut_empleado,data.contrasena]);
-        //existe[0].token="fake-jwt-token";
-        res.send(existe); //REVISAR
+        if(existe.length>0){
+            existe[0].token="fake-jwt-token"; //token - se vera para que nos servira
+            res.send(existe); //existe el usuario
+        }else{
+            res.send(Error); //no existe el usuario
+        }
     }
 
     //CONTROLADOR PARA EL RENTADOR
-    public async getRentList(req:Request, res:Response):Promise<void>{ //estoy ejecutando promesa, pero no devuelve nada
-        const rents= await pool.query('select * from Renta'); //termina cuando pueda
+    public async getRentList(req:Request, res:Response):Promise<void>{ //obtengo rentas de retiro y devolucion en la suc del empleado
+        const id_sucursal=req.params.id_sucursal; //sucursal del empleado
+        const rents= await pool.query('select * from Renta where local_retiro=? or local_devolucion=?;',[id_sucursal,id_sucursal]);
         res.send(rents);
     }
+
+
     public async getRentDetails(req:Request, res:Response):Promise<void>{ //obtengo los detalles de la renta
         const id_renta=req.params.id_renta; //obtengo id_renta
         const rentClientVeh= await pool.query('select v.*,c.*,r.id_renta,r.estado,r.fecha_retiro,r.fecha_devolucion,nc.primer_nom,nc.apellido_pat,nc.apellido_mat from Renta as r inner join Cliente as c on r.rut_cliente=c.rut_cliente inner join Vehiculo as v on v.matricula=r.matricula inner join Nombre_cliente as nc on c.rut_cliente=nc.rut_cliente where id_renta=?',[id_renta]); //obtengo datos de renta,cliente,vehiculo
