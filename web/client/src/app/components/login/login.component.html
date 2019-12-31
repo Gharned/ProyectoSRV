@@ -1,0 +1,32 @@
+<div class="container">
+    <div class="row ">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 bg-dark text-white">
+            <h2 >Login</h2>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="rut_empleado">Rut empleado</label>
+                    <input type="text" formControlName="rut_empleado" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.rut_empleado.errors }" />
+                    <div *ngIf="submitted && f.rut_empleado.errors" class="invalid-feedback">
+                        <div *ngIf="f.rut_empleado.errors.required">Rut del empleado requerido</div>
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label for="contrasena">Contrasena</label>
+                    <input type="password" formControlName="contrasena" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.contrasena.errors }" />
+                    <div *ngIf="submitted && f.contrasena.errors" class="invalid-feedback">
+                        <div *ngIf="f.contrasena.errors.required">Contrasena requerida</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button [disabled]="loading" class="btn btn-primary">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                        Login
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+</div>
+

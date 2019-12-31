@@ -13,9 +13,10 @@ import { RentService} from './services/rent.service';
 import { RentDetailsComponent } from './components/rent-details/rent-details.component';
 import { DatepickerComponent } from './components/datepicker/datepicker.component';
 import { TimepickerComponent } from './components/timepicker/timepicker.component';
-import { LoginBarComponent } from './components/login-bar/login-bar.component';
 import { SinesterComponent } from './components/sinester/sinester.component';
-//import { AlertMessageComponent } from './components/alert-message/alert-message.component'; //es un componente
+import { LoginComponent } from './components/login/login.component';
+import { RentsEmployeeComponent } from './components/rents-employee/rents-employee.component';
+import { AlertComponent } from './components/alert/alert.component';
 
 
 @NgModule({
@@ -27,9 +28,10 @@ import { SinesterComponent } from './components/sinester/sinester.component';
     RentDetailsComponent,
     DatepickerComponent,
     TimepickerComponent,
-    LoginBarComponent,
     SinesterComponent,
-  //  AlertMessageComponent
+    LoginComponent,
+    RentsEmployeeComponent,
+    AlertComponent,
   ],
   imports: [
     BrowserModule,

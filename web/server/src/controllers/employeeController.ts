@@ -4,7 +4,15 @@ import pool from "../database";
 class EmployeeController{
 
 
-    //Controlador para el rentador
+    //Controlador de login y envío de datos
+    public async postAuthenEmployee(req:Request, res:Response):Promise<void>{  //autentifico y obtengo los detalles del empleado junto a su nombre
+        const data=req.body; //almacena rut_empleado y contrasena
+        const existe=await pool.query('select e.*,ne.primer_nom,ne.apellido_pat,ne.apellido_mat from Empleado as e inner join Nombre_empleado as ne on e.rut_empleado=ne.rut_empleado where e.rut_empleado=? and e.contrasena=?',[data.rut_empleado,data.contrasena]);
+        //existe[0].token="fake-jwt-token";
+        res.send(existe); //REVISAR
+    }
+
+    //CONTROLADOR PARA EL RENTADOR
     public async getRentList(req:Request, res:Response):Promise<void>{ //estoy ejecutando promesa, pero no devuelve nada
         const rents= await pool.query('select * from Renta'); //termina cuando pueda
         res.send(rents);
@@ -35,15 +43,16 @@ class EmployeeController{
         res.send({message:"Exito al actualizar"});
     }
 
-    //Controlador para el administrador
+    //CONTROLADOR PARA EL ADMINISTRADOR
     public async getListEmployees(req:Request, res:Response):Promise<void>{ //obtengo la lista de empleados
         const empleados=await pool.query('select * from Empleado');
         res.send(empleados);
     }
     public async getDetailsEmployee(req:Request, res:Response):Promise<void>{  //obtengo los detalles del empleado junto a su nombre y sucursal
         const rut_empleado=req.params.id_siniestro;
-        const details=await pool.query('select * fromselect e.*,ne.primer_nom,ne.apellido_pat,ne.apellido_mat,s.email,s.hora_apertura,s.hora_cierre,ds.calle,region,ciudad,numero from Empleado as e inner join Nombre_empleado as ne on e.rut_empleado=ne.rut_empleado inner join Sucursal as s on e.id_sucursal=s.id_sucursal inner join Direccion_sucursal as ds on s.id_sucursal=ds.id_sucursal where e.rut_empleado=?',[rut_empleado]);
-        res.send(details);
+        //const details=await pool.query('select * fromselect e.*,ne.primer_nom,ne.apellido_pat,ne.apellido_mat,s.email,s.hora_apertura,s.hora_cierre,ds.calle,ds.region,ds.ciudad,ds.numero from Empleado as e inner join Nombre_empleado as ne on e.rut_empleado=ne.rut_empleado inner join Sucursal as s on e.id_sucursal=s.id_sucursal inner join Direccion_sucursal as ds on s.id_sucursal=ds.id_sucursal where e.rut_empleado=?',[rut_empleado]);
+        const details=await pool.query('select e.*,ne.primer_nom,ne.apellido_pat,ne.apellido_mat from Empleado as e inner join Nombre_empleado as ne on e.rut_empleado=ne.rut_empleado where e.rut_empleado=?',[rut_empleado]);
+        res.send(details); //REVISAR
     }
     public async addEmployee(req:Request, res:Response):Promise<void>{ //agrega un empleado
         const form=req.body;

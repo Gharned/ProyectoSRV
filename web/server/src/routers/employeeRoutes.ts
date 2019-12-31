@@ -11,7 +11,8 @@ class IndexRoutes{
     }
 
     config():void{
-        this.router.get('/rent-list',employeeController.getRentList); //cuando se haga get a esta ruta, se ejecuta este metodo
+        this.router.post('/authentication',employeeController.postAuthenEmployee); //cuando se haga get a esta ruta, se ejecuta este metodo
+        
         //se debe agregar los otros metodos donde se enviara el empleado
     }
 }
