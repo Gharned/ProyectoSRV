@@ -15,24 +15,22 @@ export class AuthGuard implements CanActivate {
   constructor(private router: Router, private authenticationService: AuthenticationService) {  }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if(state.url=='/employee/menu-rentador'){ //vista del rentador
+    if( (state.url=='/employee/menu-rentador') || (state.url=='/employee/rents-list') ){ //vistas del rentador
       if (this.authenticationService.isAuthenticatedOnRentador()) {  //se pregunta si tiene un cargo de rentador para entrar a esa vista
         return true;// logged in so return true
       }
     }else{
-      if(state.url=='/employee/rents-list'){ //vista del rentador
-        if (this.authenticationService.isAuthenticatedOnRentador()) { 
+      if( (state.url=='/employee/menu-admin') || (state.url=='/employee/queries') ){ //vistas del administrador
+        if (this.authenticationService.isAuthenticatedOnAdmin()) { 
           return true;// logged in so return true
-        }
-      }else{
-        if(state.url=='/employee/menu-admin'){ //vista del administrador
-          if(this.authenticationService.isAuthenticatedOnAdmin()){
-            return true;
-          }
         }
       }
     }
 
+    //Las rutas que sirvan para el rentador y administrador pasaran por aca
+    if(this.authenticationService.isAuthenticated()){ 
+      return true;
+    }
     // not logged in so redirect to login page with the return url
     this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
     return false;

@@ -35,9 +35,15 @@ export class AuthenticationService {
   }
 
   logout() { //logout del empleado
-    // remueve al usuario del almacenamiento local y al usuario actual se le asigna null
-    localStorage.removeItem('currentUser');
+    localStorage.removeItem('currentUser');  // remueve al usuario del almacenamiento local y al usuario actual se le asigna null
     this.currentUserSubject.next(null);
+  }
+
+  public isAuthenticated():Boolean{ //se autentifica que el usuario este solamente logeado
+    if(this.currentUser!=null){ //si no es null, significa que ya inicio sesion
+      return true;
+    }
+    return false;
   }
 
   public isAuthenticatedOnRentador():Boolean{ //se autentifica que el usuario este logeado y sea rentador

@@ -1,0 +1,19 @@
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6"><!--Nombre y correos, a futuro se puede modificar-->
+            <h4>Datos del empleado</h4>
+            <div class="row">Rut: {{datosEmpleado[0].rut_empleado}} </div>
+            <div class="row">Cargo: {{datosEmpleado[0].cargo}} </div>
+            <div class="row">Nombre: {{datosEmpleado[0].primer_nom}}</div>
+            <div class="row">Apellido Paterno: {{datosEmpleado[0].apellido_pat}} </div>
+            <div class="row">Apellido Materno: {{datosEmpleado[0].apellido_mat}} </div>
+            <div class="row">Apellido Paterno: {{datosEmpleado[0].apellido_pat}} </div>
+            <div class="row">Email: {{datosEmpleado[0].email}} </div>
+            <div class="row">Contrasena: {{datosEmpleado[0].contrasena}} </div>
+        </div>
+        <div class="col-md-6"><!--Datos de la sucursal a la que pertenece-->
+           <app-branch [branch]='datosEmpleado[0].id_sucursal'></app-branch>
+        </div>
+    </div>
+</div>

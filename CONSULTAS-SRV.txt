@@ -3,13 +3,13 @@
 ----CONSULTAS A LA BASE DE DATOS SRV EN LENGUAJE NATURAL Y MYSQL-----
 
 
-1.- Mostrar las ganancias de dinero obtenidos en algun mes de las rentas que ya esten finalizadas 
+1.- Mostrar las ganancias de dinero obtenidas en algun mes y año de las rentas que ya esten finalizadas 
 
 2.- Mostrar el id de la sucursal y numero de empleados que tengan el cargo de rentador y pertenezcan a una sucursal X
 
-3.- Mostrar los clientes que hayan rentado un auto por mas de 6 meses y hayan sido autos de de un precio mayor a 20000 por dia
+3.- Mostrar los clientes que hayan rentado un auto por mas de 6 meses y hayan sido autos de un precio mayor a 20000 por dia
 
-4.- Mostrar el nombre y la edad del cliente que rento el auto, el cual tuvo un siniestro durante cierto periodo de fechas
+4.- Mostrar el rut, nombre y la edad del cliente que rento el auto, el cual tuvo un siniestro durante cierto periodo de fechas
 
 5.- Mostrar un grupo de clientes con su rut, que ha rentado más de 10 vehiculos de acuerdo a todas las sucursales
 
@@ -19,21 +19,19 @@
 
 8.- Mostrar la ciudad de la sucursal a donde más llega cierta marca de vehiculo
 
-9.- Mostrar la ciudad y región de la sucursal donde se rentan más vehiculos que tengan un precio menor a X
+9.- Mostrar la ciudad y región de la sucursal donde se rentan más vehiculos
 
-10.- Mostrar el tipo, modelo y marca del vehiculo que este más cercano al promedio de los precios de todos los vehiculos
+10.- Mostrar el tipo, modelo, marca y precio del vehiculo que este más cercano al promedio de los precios de todos los vehiculos
 
-11.-Mostrar si existen empleados que tengan un nombre que empieze X en la sucursal Y
-
-12.-  Mostrar vehiculos de marca X en la sucursal N, y que no están en la sucursal R
+11.-  Mostrar vehiculos con marca en la sucursal N, en la cual la marca no esté en la sucursal R
 
 
 -------------------------------CONSULTAS-RESUELTAS----------------------------------
 
 
 
-1.- MODIFICAR , POR QUE ES SOLO WHERE MES = X
-select (datediff(r.fecha_devolucion,r.fecha_retiro)*v.precio) as ganacia_del_mes from Renta as r inner join Vehiculo as v on r.matricula=v.matricula where r.estado='Finalizada' and r.fecha_retiro between ('2019-01-01') and ('2019-05-02');
+1.- 
+select sum(v.precio) as ganacia_del_mes from Renta as r inner join Vehiculo as v on r.matricula=v.matricula where r.estado='Finalizada' and month(fecha_retiro)=12 and year(fecha_retiro)=2019;
 
 
 2.-
@@ -45,7 +43,7 @@ select * from (select r.rut_cliente, timestampdiff(month, r.fecha_retiro, r.fech
 
 
 4.-
-select sum(v.precio) as ganancia_mes from Renta as r inner join Vehiculo as v on r.matricula=v.matricula where r.estado='Finalizada' and month(r.fecha_retiro)=5;
+select c.rut_cliente,nc.primer_nom, timestampdiff(YEAR,c.fecha_nac,CURDATE()) as edad from Renta as r inner join Cliente as c on r.rut_cliente=c.rut_cliente inner join Nombre_cliente as nc on c.rut_cliente=nc.rut_cliente where r.matricula in (select matricula from Siniestro where fecha_siniestro between ('2014-03-01') and ('2015-03-01'));
 
 
 5.-
@@ -53,7 +51,7 @@ select r.rut_cliente, count(r.rut_cliente) as veces_renta from Renta as r group 
 
 
 6.-
-select v.color, v.tipo from Vehiculo as v inner join Renta as r on v.matricula=r.matricula inner join ( select sub_1.rut_cliente, veces_renta from (select r.rut_cliente, count(r.rut_cliente) as veces_renta from Renta as r group by r.rut_cliente) as sub_1 inner join (select subf.rut_cliente, subf.edad from (select rut_cliente, timestampdiff(YEAR,fecha_nac,CURDATE()) as edad from Cliente) as subf where subf.edad>21) as edad_elegida on sub_1.rut_cliente=edad_elegida.rut_cliente  where sub_1.veces_renta=(select max(sub_2.veces_renta) as max_rentado from (select count(r.rut_cliente) as veces_renta from Renta as r group by r.rut_cliente) as sub_2) ) as mega_sub  on r.rut_cliente=mega_sub.rut_cliente;
+select v.color, v.tipo from Vehiculo as v inner join Renta as r on v.matricula=r.matricula inner join ( select sub_1.rut_cliente, veces_renta from (select r.rut_cliente, count(r.rut_cliente) as veces_renta from Renta as r group by r.rut_cliente) as sub_1 inner join (select subf.rut_cliente, subf.edad from (select rut_cliente, timestampdiff(YEAR,fecha_nac,CURDATE()) as edad from Cliente) as subf where subf.edad>40) as edad_elegida on sub_1.rut_cliente=edad_elegida.rut_cliente  where sub_1.veces_renta=(select max(sub_2.veces_renta) as max_rentado from (select count(r.rut_cliente) as veces_renta from Renta as r inner join (select rut_cliente from Cliente where timestampdiff(YEAR,fecha_nac,CURDATE())>40 ) as c on c.rut_cliente=r.rut_cliente group by r.rut_cliente) as sub_2) ) as mega_sub  on r.rut_cliente=mega_sub.rut_cliente;
 
 
 7.-
@@ -66,8 +64,16 @@ select v.id_sucursal, count(v.matricula) as cantidad_marca from (select * from V
 
 9.-
 
+select ds.ciudad, ds.region, count(v.id_sucursal) as vehiculos_rentados from Renta as r inner join Vehiculo as v on r.matricula=v.matricula inner join Sucursal as s on v.id_sucursal=s.id_sucursal inner join Direccion_sucursal as ds on s.id_sucursal=ds.id_sucursal group by v.id_sucursal having vehiculos_rentados=(select max(sub_1.suc_vehiculo) from (select count(v.id_sucursal) as suc_vehiculo from Renta as r inner join Vehiculo as v on r.matricula=v.matricula group by v.id_sucursal) as sub_1);
+
+10.-
+
+select tipo, modelo, marca, precio, promedio_precio from (select tipo, modelo, marca, precio, (select avg(precio) from Vehiculo) as promedio_precio, abs(precio - (select avg(precio) from Vehiculo)) as cercano from Vehiculo) as sub_2 where sub_2.cercano=(select min(sub_1.cercano) as mas_cercano from (select abs(precio - (select avg(precio) from Vehiculo)) as cercano from Vehiculo) as sub_1);
 
 
+11.-
+
+select marca from Vehiculo where id_sucursal=40 and marca not in ( select marca from Vehiculo where id_sucursal=50);
 
 
 

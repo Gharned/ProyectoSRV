@@ -1,0 +1,49 @@
+<div class="container">
+    <div class="row"> <!--consulta 1-->
+        <div class="col">
+            <div class="row">
+                <form [formGroup]="form1">
+                    1.- Mostrar las ganancias de dinero obtenidas durante el mes y anio <input type="date" name="fecha" formControlName="fecha"> (el dia no se toma en cuenta) de las rentas que ya esten finalizadas
+                    <button type="button" (click)="getQuery1()"  class="btn btn-success">Resultado</button>
+                </form> 
+            </div>
+            <div *ngIf="result1" class="row">Resultado: {{dataQuery1[0].ganacia_del_mes | currency}} </div>
+        </div>
+    </div>
+    <div class="row"> <!--consulta 2-->
+        <div class="col">
+            <div class="row">
+                <form [formGroup]="form2">
+                    2.- Mostrar el id de la sucursal y numero de empleados que tengan el cargo de rentador y pertenezcan a una sucursal con Id=<input type="number" name="id_sucursal" min="1" pattern="^[0-9]+" formControlName="id_sucursal">
+                    <button type="button" (click)="getQuery2()"  class="btn btn-success">Resultado</button>
+                </form> 
+            </div>
+            <div *ngIf="result2" class="row">Resultado: Id sucursal={{dataQuery2[0].id_sucursal}}, Numero empleados={{dataQuery2[0].num_empleados}} </div>
+        </div>
+    </div>
+    <div class="row"> <!--consulta 3-->
+        <div class="col">
+            <div class="row">
+                <form [formGroup]="form3">
+                    3.- Mostrar los clientes que hayan rentado un auto por mas de <input type="number" name="meses" min="1" pattern="^[0-9]+" formControlName="meses"> meses y hayan sido autos de un precio mayor a <input type="number" name="precio" min="1" pattern="^[0-9]+" formControlName="precio"> por dia
+                    <button type="button" (click)="getQuery3()"  class="btn btn-success">Resultado</button>
+                </form> 
+            </div>
+            <div *ngIf="result3 && dataQuery3.length!=0" class="row">Resultado: Rut cliente={{dataQuery3[0].rut_cliente}}, Meses rentado={{dataQuery3[0].meses_rentado}} </div>
+            <div *ngIf="result3 && dataQuery3.length==0" class="row">No hay resultado </div>
+        </div>
+    </div>
+    <div class="row"> <!--consulta 4-->
+        <div class="col">
+            <div class="row">
+                <form [formGroup]="form4">
+                    4.- Mostrar el rut, nombre y la edad del cliente que rento el vehiculo, el cual tuvo un siniestro entre <input type="date" name="fecha_inicio" formControlName="fecha_inicio"> y <input type="date" name="fecha_final" formControlName="fecha_final">
+                    <button type="button" (click)="getQuery4()"  class="btn btn-success">Resultado</button>
+                </form> 
+            </div>
+            <div *ngIf="result4 && dataQuery4.length!=0" class="row">Resultado: Rut del cliente={{dataQuery4[0].rut_cliente}}, Primer nombre={{dataQuery4[0].primer_nom}}, Edad={{dataQuery4[0].edad}} </div>
+            <div *ngIf="result4 && dataQuery4.length==0" class="row">No hay resultado </div>
+        </div>
+    </div>
+    
+</div>

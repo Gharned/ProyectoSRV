@@ -19,6 +19,9 @@ import { AlertComponent } from './components/alert/alert.component';
 import { MenuERentadorComponent } from './components/menu-e-rentador/menu-e-rentador.component';
 import { RentsListComponent } from './components/rents-list/rents-list.component';
 import { MenuEAdminComponent } from './components/menu-e-admin/menu-e-admin.component';
+import { QueriesComponent } from './components/queries/queries.component';
+import { MyProfileComponent } from './components/my-profile/my-profile.component';
+import { BranchComponent } from './components/branch/branch.component';
 
 
 @NgModule({
@@ -36,6 +39,9 @@ import { MenuEAdminComponent } from './components/menu-e-admin/menu-e-admin.comp
     MenuERentadorComponent,
     RentsListComponent,
     MenuEAdminComponent,
+    QueriesComponent,
+    MyProfileComponent,
+    BranchComponent,
   ],
   imports: [
     BrowserModule,
