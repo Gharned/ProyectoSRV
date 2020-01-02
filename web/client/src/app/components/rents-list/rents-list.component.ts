@@ -10,7 +10,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 export class RentsListComponent implements OnInit {
   //ATTRIBUTES
   rentas:any; //lista de rentas de la sucursal del empleado
-  despliegue=false; //despliegue de mas informacion
+  arrayDespliegue:Array<number>; //despliegue de mas informacion
   datosEmpleado:any; //almaceno los datos de empleados
   constructor(private employeeService:EmployeesService,private authenticationService:AuthenticationService) { }
 
@@ -22,6 +22,14 @@ export class RentsListComponent implements OnInit {
       },
       err=>console.error(err)
     );
+    let i=0;
+    while(i<this.rentas.length){
+      this.arrayDespliegue[i]=(this.rentas[i]);
+      i=i+1;
+    }
+  }
+  getDetail(){
+    
   }
 
 }

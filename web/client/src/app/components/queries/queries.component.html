@@ -1,49 +1,162 @@
 <div class="container">
-    <div class="row"> <!--consulta 1-->
+    <div class="row card"> <!--consulta 1-->
         <div class="col">
-            <div class="row">
+            <div class="row card-header">
                 <form [formGroup]="form1">
                     1.- Mostrar las ganancias de dinero obtenidas durante el mes y anio <input type="date" name="fecha" formControlName="fecha"> (el dia no se toma en cuenta) de las rentas que ya esten finalizadas
                     <button type="button" (click)="getQuery1()"  class="btn btn-success">Resultado</button>
                 </form> 
             </div>
-            <div *ngIf="result1" class="row">Resultado: {{dataQuery1[0].ganacia_del_mes | currency}} </div>
+            <div *ngIf="result1" class="row"><h5>Resultado Q1:</h5> {{dataQuery1[0].ganacia_del_mes | currency}} </div>
         </div>
     </div>
-    <div class="row"> <!--consulta 2-->
+    <div class="row card"> <!--consulta 2-->
         <div class="col">
-            <div class="row">
+            <div class="row card-header">
                 <form [formGroup]="form2">
                     2.- Mostrar el id de la sucursal y numero de empleados que tengan el cargo de rentador y pertenezcan a una sucursal con Id=<input type="number" name="id_sucursal" min="1" pattern="^[0-9]+" formControlName="id_sucursal">
                     <button type="button" (click)="getQuery2()"  class="btn btn-success">Resultado</button>
                 </form> 
             </div>
-            <div *ngIf="result2" class="row">Resultado: Id sucursal={{dataQuery2[0].id_sucursal}}, Numero empleados={{dataQuery2[0].num_empleados}} </div>
+            <div *ngIf="result2" class="row"><h5>Resultado Q2:</h5> Id sucursal={{dataQuery2[0].id_sucursal}}, Numero empleados={{dataQuery2[0].num_empleados}} </div>
         </div>
     </div>
-    <div class="row"> <!--consulta 3-->
+    <div class="row card"> <!--consulta 3-->
         <div class="col">
-            <div class="row">
+            <div class="row card-header">
                 <form [formGroup]="form3">
                     3.- Mostrar los clientes que hayan rentado un auto por mas de <input type="number" name="meses" min="1" pattern="^[0-9]+" formControlName="meses"> meses y hayan sido autos de un precio mayor a <input type="number" name="precio" min="1" pattern="^[0-9]+" formControlName="precio"> por dia
                     <button type="button" (click)="getQuery3()"  class="btn btn-success">Resultado</button>
                 </form> 
             </div>
-            <div *ngIf="result3 && dataQuery3.length!=0" class="row">Resultado: Rut cliente={{dataQuery3[0].rut_cliente}}, Meses rentado={{dataQuery3[0].meses_rentado}} </div>
-            <div *ngIf="result3 && dataQuery3.length==0" class="row">No hay resultado </div>
+            <div *ngIf="result3 && dataQuery3.length!=0" class="col"><h5>Resultado Q3:</h5>
+                <div *ngFor="let dato of dataQuery3" class="row">
+                    Rut cliente={{dato.rut_cliente}}, Meses rentado={{dato.meses_rentado}} 
+                </div>
+            </div>
+            <div *ngIf="result3 && dataQuery3.length==0" class="row"><h5>No hay resultado Q3</h5> </div>
         </div>
     </div>
-    <div class="row"> <!--consulta 4-->
+    <div class="row card"> <!--consulta 4-->
         <div class="col">
-            <div class="row">
+            <div class="row card-header">
                 <form [formGroup]="form4">
                     4.- Mostrar el rut, nombre y la edad del cliente que rento el vehiculo, el cual tuvo un siniestro entre <input type="date" name="fecha_inicio" formControlName="fecha_inicio"> y <input type="date" name="fecha_final" formControlName="fecha_final">
                     <button type="button" (click)="getQuery4()"  class="btn btn-success">Resultado</button>
                 </form> 
             </div>
-            <div *ngIf="result4 && dataQuery4.length!=0" class="row">Resultado: Rut del cliente={{dataQuery4[0].rut_cliente}}, Primer nombre={{dataQuery4[0].primer_nom}}, Edad={{dataQuery4[0].edad}} </div>
-            <div *ngIf="result4 && dataQuery4.length==0" class="row">No hay resultado </div>
+            <div *ngIf="result4 && dataQuery4.length!=0" class="col"><h5>Resultado Q4:</h5>
+                <div *ngFor="let dato of dataQuery4" class="row">
+                    Rut del cliente={{dataQuery4[0].rut_cliente}}, Primer nombre={{dataQuery4[0].primer_nom}}, Edad={{dataQuery4[0].edad}} 
+                </div>
+            </div>
+            <div *ngIf="result4 && dataQuery4.length==0" class="row"><h5>No hay resultado Q4</h5> </div>
         </div>
     </div>
-    
+    <div class="row card"> <!--consulta 5-->
+        <div class="col">
+            <div class="row card-header">
+                <form [formGroup]="form5">
+                    5.- Mostrar un grupo de clientes con su rut, que ha rentado más de  <input type="number" name="veces" min="1" pattern="^[0-9]+" formControlName="veces"> vehiculos de acuerdo a todas las sucursales
+                    <button type="button" (click)="getQuery5()"  class="btn btn-success">Resultado</button>
+                </form> 
+            </div>
+            <div *ngIf="result5 && dataQuery5.length!=0" class="col"><h5>Resultado Q5:</h5>
+                <div *ngFor="let dato of dataQuery5" class="row">
+                    Rut del cliente={{dato.rut_cliente}}, Veces que rento={{dato.veces_renta}}
+                </div>
+            </div>
+            <div *ngIf="result5 && dataQuery5.length==0" class="row"><h5>No hay resultado Q5</h5> </div>
+        </div>
+    </div>
+    <div class="row card"> <!--consulta 6-->
+        <div class="col">
+            <div class="row card-header">
+                <form [formGroup]="form6">
+                    6.- Mostrar el color y tipo de vehiculo que más han rentado clientes que sean mayores de <input type="number" name="edad" min="1" pattern="^[0-9]+" formControlName="edad">
+                    <button type="button" (click)="getQuery6()"  class="btn btn-success">Resultado</button>
+                </form> 
+            </div>
+            <div *ngIf="result6 && dataQuery6.length!=0" class="col"><h5>Resultado Q6:</h5>
+                <div *ngFor="let dato of dataQuery6" class="row">
+                    Color={{dato.color}}, Tipo de vehiculo={{dato.tipo}}
+                </div>
+            </div>
+            <div *ngIf="result6 && dataQuery6.length==0" class="row"><h5>No hay resultado Q6</h5> </div>
+        </div>
+    </div>
+    <div class="row card"> <!--consulta 7-->
+        <div class="col">
+            <div class="row card-header">
+                <form [formGroup]="form7">
+                    7.- Mostrar el tipo de vehiculo al cual más le ocurrieron siniestros la fecha escifica: <input type="date" name="fecha" formControlName="fecha">
+                    <button type="button" (click)="getQuery7()"  class="btn btn-success">Resultado</button>
+                </form> 
+            </div>
+            <div *ngIf="result7 && dataQuery7.length!=0" class="col"><h5>Resultado Q7:</h5>
+                    Tipo de vehiculo={{dataQuery7[0].tipo}}
+            </div>
+            <div *ngIf="result7 && dataQuery7.length==0" class="row"><h5>No hay resultado Q7</h5> </div>
+        </div>
+    </div>
+    <div class="row card"> <!--consulta 8-->
+        <div class="col">
+            <div class="row card-header">
+                <form [formGroup]="form8">
+                    8.- Mostrar la ciudad de la sucursal a donde más llega la marca <input type="text" name="marca" formControlName="marca"> de vehiculo
+                    <button type="button" (click)="getQuery8()"  class="btn btn-success">Resultado</button>
+                </form> 
+            </div>
+            <div *ngIf="result8 && dataQuery8.length!=0" class="col"><h5>Resultado Q8:</h5>
+                <div *ngFor="let dato of dataQuery8" class="row">
+                    Ciudad={{dato.ciudad}}, Cantidad de la marca={{dato.cantidad_marca}}
+                </div>
+            </div>
+            <div *ngIf="result8 && dataQuery8.length==0" class="row"><h5>No hay resultado Q8</h5> </div>
+        </div>
+    </div>
+    <div class="row card"> <!--consulta 9-->
+        <div class="col">
+            <div class="row card-header">
+                9.- Mostrar la ciudad y región de la sucursal donde se rentan más vehiculos
+                    <button type="button" (click)="getQuery9()"  class="btn btn-success">Resultado</button>
+            </div>
+            <div *ngIf="result9 && dataQuery9.length!=0" class="col"><h5>Resultado Q9:</h5>
+                <div *ngFor="let dato of dataQuery9" class="row">
+                    Ciudad={{dato.ciudad}}, Region={{dato.region}},  Vehiculos rentados={{dato.vehiculos_rentados}}
+                </div>
+            </div>
+            <div *ngIf="result9 && dataQuery9.length==0" class="row"><h5>No hay resultado Q9</h5> </div>
+        </div>
+    </div>
+    <div class="row card"> <!--consulta 10-->
+        <div class="col">
+            <div class="row card-header">
+                10.- Mostrar el tipo, modelo, marca y precio del vehiculo que este más cercano al promedio de los precios de todos los vehiculos
+                    <button type="button" (click)="getQuery10()"  class="btn btn-success">Resultado</button>
+            </div>
+            <div *ngIf="result10 && dataQuery10.length!=0" class="col"><h5>Resultado Q10: </h5>
+                <div *ngFor="let dato of dataQuery10" class="row">
+                    Vehiculo Tipo={{dato.tipo}}, Modelo={{dato.modelo}}, Marca={{dato.marca}}, Precio por dia={{dato.precio}}, Promedio de todos los precios={{dato.promedio_precio}}
+                </div>
+            </div>
+            <div *ngIf="result10 && dataQuery10.length==0" class="row"><h5>No hay resultado Q10</h5> </div>
+        </div>
+    </div>
+    <div class="row card"> <!--consulta 11-->
+        <div class="col">
+            <div class="row card-header">
+                <form [formGroup]="form11">
+                    11.- Mostrar vehiculos con marca en la sucursal <input type="number" name="sucursal_N" min="1" pattern="^[0-9]+" formControlName="sucursal_N">, en la cual la marca no esté en la sucursal <input type="number" name="sucursal_R" min="1" pattern="^[0-9]+" formControlName="sucursal_R">
+                    <button type="button" (click)="getQuery11()"  class="btn btn-success">Resultado</button>
+                </form> 
+            </div>
+            <div *ngIf="result11 && dataQuery11.length!=0" class="col"><h5>Resultado Q11:</h5>
+                <div *ngFor="let dato of dataQuery11" class="row">
+                    Marca={{dato.marca}}
+                </div>
+            </div>
+            <div *ngIf="result11 && dataQuery11.length==0" class="row"><h5>No hay resultado Q11</h5> </div>
+        </div>
+
 </div>

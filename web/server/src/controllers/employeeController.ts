@@ -25,18 +25,11 @@ class EmployeeController{
         const rents= await pool.query('select * from Renta where local_retiro=? or local_devolucion=?;',[id_sucursal,id_sucursal]);
         res.send(rents);
     }
-
-
-    public async getRentDetails(req:Request, res:Response):Promise<void>{ //obtengo los detalles de la renta
-        const id_renta=req.params.id_renta; //obtengo id_renta
-        const rentClientVeh= await pool.query('select v.*,c.*,r.id_renta,r.estado,r.fecha_retiro,r.fecha_devolucion,nc.primer_nom,nc.apellido_pat,nc.apellido_mat from Renta as r inner join Cliente as c on r.rut_cliente=c.rut_cliente inner join Vehiculo as v on v.matricula=r.matricula inner join Nombre_cliente as nc on c.rut_cliente=nc.rut_cliente where id_renta=?',[id_renta]); //obtengo datos de renta,cliente,vehiculo
-        const sucRet=await pool.query('select s.*,ds.calle,ds.region,ds.ciudad,ds.numero from Renta as r inner join Sucursal as s on r.local_devolucion=s.id_sucursal inner join Direccion_sucursal as ds on s.id_sucursal=ds.id_sucursal where r.id_renta=?',[id_renta]); //obtengo los datos de la sucursal de retiro
-        const sucDev=await pool.query('select s.*,ds.calle,ds.region,ds.ciudad,ds.numero from Renta as r inner join Sucursal as s on r.local_devolucion=s.id_sucursal inner join Direccion_sucursal as ds on s.id_sucursal=ds.id_sucursal where r.id_renta=?',[id_renta]); //obtengo los datos de la sucursal de devolucion
-        
-        const details={rentClientVeh,sucRet,sucDev};
-
-        res.send(details);
+    public async getClient(req:Request, res:Response):Promise<void>{
+        res.send(); //hacer metodo para enviar cliente, vehiculos
     }
+
+    
     public async updateRentState(req:Request, res:Response):Promise<void>{ //actualizo el estado de la renta
         const form=req.body;
         await pool.query('update Renta set estado=? where id_renta=?',[form.estado,form.id_renta]);
@@ -62,7 +55,7 @@ class EmployeeController{
 
 
     //CONTROLADOR PARA EL ADMINISTRADOR
-    /*
+    /*FUTURA IMPLEMENTACION
     public async getListEmployees(req:Request, res:Response):Promise<void>{ //obtengo la lista de empleados
         const empleados=await pool.query('select * from Empleado');
         res.send(empleados);
@@ -93,7 +86,7 @@ class EmployeeController{
         const details=await pool.query('select * from Vehiculo as v where matricula=?',[matricula]);
         res.send(details);
     }
-    /*
+    /* FUTURA IMPLEMENTACION
     public async updateVehicle(req:Request, res:Response):Promise<void>{ //actuliza datos de un vehiculo
         const form=req.body; //VER BIEN COMO IMPLEMENTAR ESTA PARTE, SI ES QUE SE ALCANZA
         for(var i in form){ //actualizacion iterativa por cada elemento ingresado en el formulario
@@ -116,7 +109,7 @@ class EmployeeController{
         res.send(datosSucursal);
     }
 
-    /*
+    /*FURUTA IMPLEMENTACION
     public async getListBranch(req:Request, res:Response):Promise<void>{ //obtengo informacion de las sucursales con sus direcciones
         const sucursales=await pool.query('select s.*,ds.calle,ds.region,ds.ciudad,ds.numero from Sucursal as s inner join Direccion_sucursal as ds on s.id_sucursal=ds.id_sucursal');
         res.send(sucursales);
@@ -182,7 +175,7 @@ class EmployeeController{
     }
     public async query8(req:Request, res:Response):Promise<void>{ //POST
         const data=req.body;
-        const result= await pool.query('select v.id_sucursal, count(v.matricula) as cantidad_marca from (select * from Vehiculo where marca="Toyota") as v group by v.id_sucursal having cantidad_marca=(select max(sub_1.cantidad_marca) from (select count(v.matricula) as cantidad_marca from (select * from Vehiculo where marca=?) as v group by v.id_sucursal) as sub_1)',[data.marca]);
+        const result= await pool.query('select ds.ciudad, count(v.matricula) as cantidad_marca from (select * from Vehiculo where marca=?) as v inner join Direccion_sucursal as ds on v.id_sucursal=ds.id_sucursal group by v.id_sucursal having cantidad_marca=(select max(sub_1.cantidad_marca) from (select count(v.matricula) as cantidad_marca from (select * from Vehiculo where marca=?) as v group by v.id_sucursal) as sub_1);',[data.marca,data.marca]);
         res.send(result);
     }
     public async query9(req:Request, res:Response):Promise<void>{ //GET

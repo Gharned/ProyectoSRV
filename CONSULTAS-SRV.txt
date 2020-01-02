@@ -60,7 +60,7 @@ select tipo from Siniestro as s inner join Vehiculo as v on s.matricula=v.matric
 
 8.-
 
-select v.id_sucursal, count(v.matricula) as cantidad_marca from (select * from Vehiculo where marca="Toyota") as v group by v.id_sucursal having cantidad_marca=(select max(sub_1.cantidad_marca) from (select count(v.matricula) as cantidad_marca from (select * from Vehiculo where marca="Toyota") as v group by v.id_sucursal) as sub_1);
+select ds.ciudad, count(v.matricula) as cantidad_marca from (select * from Vehiculo where marca="Toyota") as v inner join Direccion_sucursal as ds on v.id_sucursal=ds.id_sucursal group by v.id_sucursal having cantidad_marca=(select max(sub_1.cantidad_marca) from (select count(v.matricula) as cantidad_marca from (select * from Vehiculo where marca="Toyota") as v group by v.id_sucursal) as sub_1);
 
 9.-
 

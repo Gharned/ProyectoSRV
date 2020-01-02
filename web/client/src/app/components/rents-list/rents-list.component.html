@@ -1,11 +1,42 @@
-<table class="table"> <!--Se muestran las rentas de la sucursal donde se encuentra el empleado-->
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-1">ID</div>
+    <div class="col-md-1">Rut</div>
+    <div class="col-md-1">Matricula</div>
+    <div class="col-md-1">Estado</div>
+    <div class="col-md-2">Fecha retiro</div>
+    <div class="col-md-1">Local retiro</div>
+    <div class="col-md-2">Fecha devolucion</div>
+    <div class="col-md-1">Local devolucion</div>    
+    <div class="col-md-2">Accion</div><!--9-->
+  </div>
+  <div *ngFor="let renta of rentas" class="row"> <!--datos-->
+    <div class="col-md-1">{{renta.id_renta}}</div>
+    <div class="col-md-1">{{renta.rut_cliente}}</div>
+    <div class="col-md-1">{{renta.matricula}}</div>
+    <div class="col-md-1">{{renta.estado}}</div>
+    <div class="col-md-2">{{renta.fecha_retiro | date:'short'}}</div>
+    <div class="col-md-1">{{renta.local_retiro}}</div>
+    <div class="col-md-2">{{renta.fecha_devolucion | date:'short'}}</div>
+    <div class="col-md-1">{{renta.local_devolucion}}</div>
+    <div class="col-md-2">
+      <label class="btn btn-info"><input (click)="getDetail()" type="checkbox" autocomplete="off">Revisar</label>
+    </div>
+    <!--<div class="row">aqui irá el cuadro de modificaciones</div>-->
+  </div>
+</div>
+
+
+<!--
+<table class="table"> Se muestran las rentas de la sucursal donde se encuentra el empleado
     <thead>
       <tr>
         <th scope="col">Id</th>
         <th scope="col">Rut cliente</th>
         <th scope="col">Matricula</th>
         <th scope="col">Estado</th>
-        <th scope="col">Fecha_retiro</th>
+        <th scope="col">Fecha retiro</th>
         <th scope="col">Local Retiro</th>
         <th scope="col">Fecha devolucion</th>
         <th scope="col">Local devolucion</th>
@@ -30,3 +61,4 @@
       </tr>
     </tbody>
 </table>
+-->

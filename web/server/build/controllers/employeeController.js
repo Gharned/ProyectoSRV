@@ -37,14 +37,9 @@ class EmployeeController {
             res.send(rents);
         });
     }
-    getRentDetails(req, res) {
+    getClient(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const id_renta = req.params.id_renta; //obtengo id_renta
-            const rentClientVeh = yield database_1.default.query('select v.*,c.*,r.id_renta,r.estado,r.fecha_retiro,r.fecha_devolucion,nc.primer_nom,nc.apellido_pat,nc.apellido_mat from Renta as r inner join Cliente as c on r.rut_cliente=c.rut_cliente inner join Vehiculo as v on v.matricula=r.matricula inner join Nombre_cliente as nc on c.rut_cliente=nc.rut_cliente where id_renta=?', [id_renta]); //obtengo datos de renta,cliente,vehiculo
-            const sucRet = yield database_1.default.query('select s.*,ds.calle,ds.region,ds.ciudad,ds.numero from Renta as r inner join Sucursal as s on r.local_devolucion=s.id_sucursal inner join Direccion_sucursal as ds on s.id_sucursal=ds.id_sucursal where r.id_renta=?', [id_renta]); //obtengo los datos de la sucursal de retiro
-            const sucDev = yield database_1.default.query('select s.*,ds.calle,ds.region,ds.ciudad,ds.numero from Renta as r inner join Sucursal as s on r.local_devolucion=s.id_sucursal inner join Direccion_sucursal as ds on s.id_sucursal=ds.id_sucursal where r.id_renta=?', [id_renta]); //obtengo los datos de la sucursal de devolucion
-            const details = { rentClientVeh, sucRet, sucDev };
-            res.send(details);
+            res.send(); //hacer metodo para enviar cliente, vehiculos
         });
     }
     updateRentState(req, res) {
@@ -69,7 +64,7 @@ class EmployeeController {
         });
     }
     //CONTROLADOR PARA EL ADMINISTRADOR
-    /*
+    /*FUTURA IMPLEMENTACION
     public async getListEmployees(req:Request, res:Response):Promise<void>{ //obtengo la lista de empleados
         const empleados=await pool.query('select * from Empleado');
         res.send(empleados);
@@ -104,7 +99,7 @@ class EmployeeController {
             res.send(details);
         });
     }
-    /*
+    /* FUTURA IMPLEMENTACION
     public async updateVehicle(req:Request, res:Response):Promise<void>{ //actuliza datos de un vehiculo
         const form=req.body; //VER BIEN COMO IMPLEMENTAR ESTA PARTE, SI ES QUE SE ALCANZA
         for(var i in form){ //actualizacion iterativa por cada elemento ingresado en el formulario
@@ -127,7 +122,7 @@ class EmployeeController {
             res.send(datosSucursal);
         });
     }
-    /*
+    /*FURUTA IMPLEMENTACION
     public async getListBranch(req:Request, res:Response):Promise<void>{ //obtengo informacion de las sucursales con sus direcciones
         const sucursales=await pool.query('select s.*,ds.calle,ds.region,ds.ciudad,ds.numero from Sucursal as s inner join Direccion_sucursal as ds on s.id_sucursal=ds.id_sucursal');
         res.send(sucursales);
@@ -203,7 +198,7 @@ class EmployeeController {
     query8(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const data = req.body;
-            const result = yield database_1.default.query('select v.id_sucursal, count(v.matricula) as cantidad_marca from (select * from Vehiculo where marca="Toyota") as v group by v.id_sucursal having cantidad_marca=(select max(sub_1.cantidad_marca) from (select count(v.matricula) as cantidad_marca from (select * from Vehiculo where marca=?) as v group by v.id_sucursal) as sub_1)', [data.marca]);
+            const result = yield database_1.default.query('select ds.ciudad, count(v.matricula) as cantidad_marca from (select * from Vehiculo where marca=?) as v inner join Direccion_sucursal as ds on v.id_sucursal=ds.id_sucursal group by v.id_sucursal having cantidad_marca=(select max(sub_1.cantidad_marca) from (select count(v.matricula) as cantidad_marca from (select * from Vehiculo where marca=?) as v group by v.id_sucursal) as sub_1);', [data.marca, data.marca]);
             res.send(result);
         });
     }
