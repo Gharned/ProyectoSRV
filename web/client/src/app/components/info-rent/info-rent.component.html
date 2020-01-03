@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="row"><p class="text-success" style="font-size:20px">DETALLES DE LA ID RENTA {{dataRenta[0].id_renta}}</p></div>
+    <div class="row">
+        <div class="col">
+            <div class="row">Estado de la renta actual: {{dataRenta[0].estado}}</div>
+            <div class="row">Fecha de retiro: {{dataRenta[0].fecha_retiro | date:'short'}}</div>
+            <div class="row">Fecha de devolucion: {{dataRenta[0].fecha_devolucion | date:'short'}} <hr></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <app-vehicle-d [vehicle]="dataRenta[0].matricula" [titulo]="mensajeVeh"></app-vehicle-d>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <app-branch-d [branch]="dataRenta[0].local_retiro" [titulo]="mensajeSucRet"></app-branch-d>
+            </div>
+            <div class="row">
+                <app-branch-d [branch]="dataRenta[0].local_devolucion" [titulo]="mensajeSucDev"></app-branch-d>
+            </div>
+            <div class="row">
+                <app-client-d [client]="dataRenta[0].rut_cliente" [titulo]="mensajeClient"></app-client-d>
+            </div>
+        </div>
+    </div>
+</div>

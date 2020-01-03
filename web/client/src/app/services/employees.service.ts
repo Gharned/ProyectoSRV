@@ -18,6 +18,16 @@ export class EmployeesService {
   getBranch(id_sucursal:any){ //obtengo la sucursal del parametro
     return this.http.get(`${this.API_URI}/employee/branch/${id_sucursal}`);
   }
+  getClient(rut_cliente:any){
+    return this.http.get(`${this.API_URI}/employee/client/${rut_cliente}`);
+  }
+  getVehicle(matricula:any){
+    return this.http.get(`${this.API_URI}/employee/vehicle/${matricula}`);
+  }
+  getRent(id_renta:any){
+    return this.http.get(`${this.API_URI}/employee/rent/${id_renta}`);
+  }
+  
 
   //PETICIONES HTTP PARA LAS CONSULTAS 
   getQuery1(fecha:any){

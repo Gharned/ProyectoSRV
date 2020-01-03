@@ -10,6 +10,7 @@ import { RentsListComponent } from "./components/rents-list/rents-list.component
 import { MenuEAdminComponent } from "./components/menu-e-admin/menu-e-admin.component";
 import { MyProfileComponent } from "./components/my-profile/my-profile.component";
 import { QueriesComponent } from "./components/queries/queries.component";
+import { InfoRentComponent } from "./components/info-rent/info-rent.component";
 import { AuthGuard } from "./auth/auth.guard"; //authguard activa los componentes, solo si es que tiene permiso
 
 //me permite definir rutas de mi app
@@ -28,7 +29,8 @@ const routes: Routes = [
   {path:'employee/rents-list',component:RentsListComponent,canActivate:[AuthGuard]},
   {path:'employee/menu-admin',component:MenuEAdminComponent,canActivate:[AuthGuard]},
   {path:'employee/my-profile',component:MyProfileComponent,canActivate:[AuthGuard]},
-  {path:'employee/queries',component:QueriesComponent,canActivate:[AuthGuard]}
+  {path:'employee/queries',component:QueriesComponent,canActivate:[AuthGuard]},
+  {path:'employee/info-rent/:id_renta',component:InfoRentComponent,canActivate:[AuthGuard]}
 ];
 
 @NgModule({

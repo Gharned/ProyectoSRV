@@ -28,18 +28,40 @@ class EmployeeController {
             }
         });
     }
-    //CONTROLADOR PARA EL RENTADOR
-    //RENTS
+    //CONTROLADOR PARA EL RENTADOR Y ADMINISTRADOR
     getRentList(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const id_sucursal = req.params.id_sucursal; //sucursal del empleado
-            const rents = yield database_1.default.query('select * from Renta where local_retiro=? or local_devolucion=?;', [id_sucursal, id_sucursal]);
+            const rents = yield database_1.default.query('select * from Renta where local_retiro=? or local_devolucion=?', [id_sucursal, id_sucursal]);
             res.send(rents);
         });
     }
-    getClient(req, res) {
+    getDetailsBranch(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            res.send(); //hacer metodo para enviar cliente, vehiculos
+            const id_sucursal = req.params.id_sucursal; //sucursal del empleado
+            const datosSucursal = yield database_1.default.query('select s.id_sucursal,email,hora_apertura,hora_cierre,calle,region,ciudad,numero from Sucursal as s inner join Direccion_sucursal as ds on s.id_sucursal=ds.id_sucursal where s.id_sucursal=?', [id_sucursal]);
+            res.send(datosSucursal);
+        });
+    }
+    getDetailsClient(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const rut_cliente = req.params.rut_cliente; //sucursal del empleado
+            const detailsClient = yield database_1.default.query('select c.*,nc.primer_nom,nc.apellido_pat,nc.apellido_mat from Cliente as c inner join Nombre_cliente as nc on c.rut_cliente=nc.rut_cliente where c.rut_cliente=?', [rut_cliente]);
+            res.send(detailsClient);
+        });
+    }
+    getDetailsVehicle(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const matricula = req.params.matricula;
+            const detailsVeh = yield database_1.default.query('select * from Vehiculo as v where matricula=?', [matricula]);
+            res.send(detailsVeh);
+        });
+    }
+    getDetailsRent(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const id_renta = req.params.id_renta;
+            const detailsRent = yield database_1.default.query('select * from Renta as v where id_renta=?', [id_renta]);
+            res.send(detailsRent);
         });
     }
     updateRentState(req, res) {
@@ -47,6 +69,13 @@ class EmployeeController {
             const form = req.body;
             yield database_1.default.query('update Renta set estado=? where id_renta=?', [form.estado, form.id_renta]);
             res.send({ message: "Exito al actualizar" });
+        });
+    }
+    //VEHICLES
+    getListVehicles(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const vehiculos = yield database_1.default.query('select * from Vehiculos');
+            res.send(vehiculos);
         });
     }
     //SINESTER
@@ -69,11 +98,6 @@ class EmployeeController {
         const empleados=await pool.query('select * from Empleado');
         res.send(empleados);
     }
-    public async getDetailsEmployee(req:Request, res:Response):Promise<void>{  //obtengo los detalles del empleado junto a su nombre y sucursal
-        const rut_empleado=req.params.id_siniestro;
-        const details=await pool.query('select e.*,ne.primer_nom,ne.apellido_pat,ne.apellido_mat from Empleado as e inner join Nombre_empleado as ne on e.rut_empleado=ne.rut_empleado where e.rut_empleado=?',[rut_empleado]);
-        res.send(details); //REVISAR
-    }
     public async addEmployee(req:Request, res:Response):Promise<void>{ //agrega un empleado
         const form=req.body;
         await pool.query('insert into Empleado(rut_empleado,id_sucursal,email,cargo,contrasena) values(?,?,?,?,?)',[form.rut_empleado,form.id_sucursal,form.email,form.cargo,form.contrasena]);
@@ -84,22 +108,9 @@ class EmployeeController {
         const rut_empleado=req.params.rut_empleado;
         await pool.query('delete from Empleado where rut_empleado=?',[rut_empleado]);
         res.send({message:"Exito al eliminar"});
-    }*/
-    //VEHICLES
-    getListVehicles(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const vehiculos = yield database_1.default.query('select * from Vehiculos');
-            res.send(vehiculos);
-        });
     }
-    getDetailsVehicle(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const matricula = req.params.matricula;
-            const details = yield database_1.default.query('select * from Vehiculo as v where matricula=?', [matricula]);
-            res.send(details);
-        });
-    }
-    /* FUTURA IMPLEMENTACION
+    
+     FUTURA IMPLEMENTACION
     public async updateVehicle(req:Request, res:Response):Promise<void>{ //actuliza datos de un vehiculo
         const form=req.body; //VER BIEN COMO IMPLEMENTAR ESTA PARTE, SI ES QUE SE ALCANZA
         for(var i in form){ //actualizacion iterativa por cada elemento ingresado en el formulario
@@ -113,19 +124,6 @@ class EmployeeController {
         const form=req.body;
         await pool.query('insert into Vehiculo values(?,?,?,?,?,?,?,?,?,0,?)',[form.matricula,form.id_sucursal,form.tipo,form.marca,form.modelo,form.color,form.anio,form.kilometraje,form.precio,form.image_url]);
         res.send({message:"Exito al insertar"});
-    }*/
-    //SUCURSALES
-    getDetailsBranch(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const id_sucursal = req.params.id_sucursal; //sucursal del empleado
-            const datosSucursal = yield database_1.default.query('select s.id_sucursal,email,hora_apertura,hora_cierre,calle,region,ciudad,numero from Sucursal as s inner join Direccion_sucursal as ds on s.id_sucursal=ds.id_sucursal where s.id_sucursal=?', [id_sucursal]);
-            res.send(datosSucursal);
-        });
-    }
-    /*FURUTA IMPLEMENTACION
-    public async getListBranch(req:Request, res:Response):Promise<void>{ //obtengo informacion de las sucursales con sus direcciones
-        const sucursales=await pool.query('select s.*,ds.calle,ds.region,ds.ciudad,ds.numero from Sucursal as s inner join Direccion_sucursal as ds on s.id_sucursal=ds.id_sucursal');
-        res.send(sucursales);
     }
     public async addBranch(req:Request, res:Response):Promise<void>{ //agrega una sucursal
         const form=req.body;

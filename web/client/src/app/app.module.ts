@@ -21,7 +21,10 @@ import { RentsListComponent } from './components/rents-list/rents-list.component
 import { MenuEAdminComponent } from './components/menu-e-admin/menu-e-admin.component';
 import { QueriesComponent } from './components/queries/queries.component';
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
-import { BranchComponent } from './components/branch/branch.component';
+import { BranchDComponent } from './components/branch-d/branch-d.component';
+import { ClientDComponent } from './components/client-d/client-d.component';
+import { VehicleDComponent } from './components/vehicle-d/vehicle-d.component';
+import { InfoRentComponent } from './components/info-rent/info-rent.component';
 
 
 @NgModule({
@@ -41,7 +44,10 @@ import { BranchComponent } from './components/branch/branch.component';
     MenuEAdminComponent,
     QueriesComponent,
     MyProfileComponent,
-    BranchComponent,
+    BranchDComponent,
+    ClientDComponent,
+    VehicleDComponent,
+    InfoRentComponent,
   ],
   imports: [
     BrowserModule,

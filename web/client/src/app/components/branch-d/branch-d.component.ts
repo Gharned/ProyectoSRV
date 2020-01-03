@@ -2,13 +2,14 @@ import { Component, OnInit, Input } from '@angular/core';
 import { EmployeesService } from "../../services/employees.service";
 
 @Component({
-  selector: 'app-branch',
-  templateUrl: './branch.component.html',
-  styleUrls: ['./branch.component.css']
+  selector: 'app-branch-d',
+  templateUrl: './branch-d.component.html',
+  styleUrls: ['./branch-d.component.css']
 })
-export class BranchComponent implements OnInit {
+export class BranchDComponent implements OnInit {
   //ATTRIBUTES
   @Input() branch:number; //sucursal pasada por input
+  @Input() titulo:string; //mensaje de pertenecia
   dataBranch:any; //contiene los datos de la sucursal
 
   constructor(private employeesService:EmployeesService) { }

@@ -15,7 +15,11 @@ class IndexRoutes{
         this.router.post('/authentication',employeeController.postAuthenEmployee); //cuando se haga get a esta ruta, se ejecuta este metodo
         this.router.get('/rents-list/:id_sucursal',employeeController.getRentList); //se obtienen las rentas de sucursales
         this.router.get('/branch/:id_sucursal',employeeController.getDetailsBranch); //obtengo datos de una sucursal
-        
+        this.router.get('/client/:rut_cliente',employeeController.getDetailsClient); //obtengo datos de un cliente
+        this.router.get('/vehicle/:matricula',employeeController.getDetailsVehicle); //obtengo datos de un vehiculo
+        this.router.get('/rent/:id_renta',employeeController.getDetailsRent); //obtengo datos de la renta
+        this.router.post('/upstate',employeeController.updateRentState); //actualizo estado de la renta
+
         //CONSULTAS
         this.router.post('/query1',employeeController.query1); // n1 ->Funcion agregada
         this.router.post('/query2',employeeController.query2); // n2 ->Group by

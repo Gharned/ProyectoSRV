@@ -1,35 +1,5 @@
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-1">ID</div>
-    <div class="col-md-1">Rut</div>
-    <div class="col-md-1">Matricula</div>
-    <div class="col-md-1">Estado</div>
-    <div class="col-md-2">Fecha retiro</div>
-    <div class="col-md-1">Local retiro</div>
-    <div class="col-md-2">Fecha devolucion</div>
-    <div class="col-md-1">Local devolucion</div>    
-    <div class="col-md-2">Accion</div><!--9-->
-  </div>
-  <div *ngFor="let renta of rentas" class="row"> <!--datos-->
-    <div class="col-md-1">{{renta.id_renta}}</div>
-    <div class="col-md-1">{{renta.rut_cliente}}</div>
-    <div class="col-md-1">{{renta.matricula}}</div>
-    <div class="col-md-1">{{renta.estado}}</div>
-    <div class="col-md-2">{{renta.fecha_retiro | date:'short'}}</div>
-    <div class="col-md-1">{{renta.local_retiro}}</div>
-    <div class="col-md-2">{{renta.fecha_devolucion | date:'short'}}</div>
-    <div class="col-md-1">{{renta.local_devolucion}}</div>
-    <div class="col-md-2">
-      <label class="btn btn-info"><input (click)="getDetail()" type="checkbox" autocomplete="off">Revisar</label>
-    </div>
-    <!--<div class="row">aqui irá el cuadro de modificaciones</div>-->
-  </div>
-</div>
-
-
-<!--
-<table class="table"> Se muestran las rentas de la sucursal donde se encuentra el empleado
+<table class="table"> <!--Se muestran las rentas de la sucursal donde se encuentra el empleado-->
     <thead>
       <tr>
         <th scope="col">Id</th>
@@ -54,11 +24,8 @@
         <td>{{renta.fecha_devolucion | date:'short'}}</td>
         <td>{{renta.local_devolucion}}</td>
         <td>
-          <label class="btn btn-secondary active">
-            <input type="radio" name="options" id="option{{renta.id_renta}}" autocomplete="off" checked> Detalles
-          </label>
+          <button routerLink="/employee/info-rent/{{renta.id_renta}}" type="button" class="btn btn-info">Revisar</button>
         </td>
       </tr>
     </tbody>
 </table>
--->
