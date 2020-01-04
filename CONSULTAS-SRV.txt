@@ -3,27 +3,27 @@
 ----CONSULTAS A LA BASE DE DATOS SRV EN LENGUAJE NATURAL Y MYSQL-----
 
 
-1.- Mostrar las ganancias de dinero obtenidas en algun mes y año de las rentas que ya esten finalizadas 
+1.- Mostrar las ganancias de dinero obtenidos en algún mes y año de las rentas que ya estén finalizadas.
 
-2.- Mostrar el id de la sucursal y numero de empleados que tengan el cargo de rentador y pertenezcan a una sucursal X
+2.- Mostrar el id de la sucursal y número de empleados que tengan el cargo de rentador y pertenezcan a una sucursal X.
 
-3.- Mostrar los clientes que hayan rentado un auto por mas de 6 meses y hayan sido autos de un precio mayor a 20000 por dia
+3.- Mostrar los clientes que hayan rentado un auto por más de X meses y hayan sido autor de de un precio mayor a Y por dia.
 
-4.- Mostrar el rut, nombre y la edad del cliente que rento el auto, el cual tuvo un siniestro durante cierto periodo de fechas
+4.- Mostrar el nombre y la edad del cliente que rentó el auto, el cual tuvo un siniestro durante cierto periodo de fechas.
 
-5.- Mostrar un grupo de clientes con su rut, que ha rentado más de 10 vehiculos de acuerdo a todas las sucursales
+5.- Mostrar un grupo de clientes con su rut, que ha rentado más de X vehículos de acuerdo a todas las sucursales.
 
-6.- Mostrar el color y tipo de vehiculo que más han rentado clientes que sean mayores de 40 
+6.- Mostrar el color y tipo de vehículo que más han rentado clientes que sean mayores de X años.
 
-7.- Mostrar el tipo de vehiculo al cual más le ocurren siniestros en una determinada fecha
+7.- Mostrar el tipo de vehículo al cual más le ocurren siniestros en una determinada fecha X.
 
-8.- Mostrar la ciudad de la sucursal a donde más llega cierta marca de vehiculo
+8.- Mostrar la ciudad de la sucursal a donde más llega X marca de vehículo.
 
-9.- Mostrar la ciudad y región de la sucursal donde se rentan más vehiculos
+9.- Mostrar la ciudad y región de la sucursal donde se rentan más vehículos.
 
-10.- Mostrar el tipo, modelo, marca y precio del vehiculo que este más cercano al promedio de los precios de todos los vehiculos
+10.- Mostrar el tipo, modelo, marca y precio del vehiculo que este más cercano al promedio de los precios de todos los vehiculos.
 
-11.-  Mostrar vehiculos con marca en la sucursal N, en la cual la marca no esté en la sucursal R
+11.- Mostrar vehiculos con marca en la sucursal N, en la cual la marca no esté en la sucursal R.
 
 
 -------------------------------CONSULTAS-RESUELTAS----------------------------------
@@ -31,36 +31,36 @@
 
 
 1.- 
-select sum(v.precio) as ganacia_del_mes from Renta as r inner join Vehiculo as v on r.matricula=v.matricula where r.estado='Finalizada' and month(fecha_retiro)=12 and year(fecha_retiro)=2019;
+select sum(v.precio) as ganacia_del_mes from Renta as r inner join Vehiculo as v on r.matricula=v.matricula where r.estado='Finalizada' and month(fecha_retiro)=X and year(fecha_retiro)=Y;
 
 
 2.-
-select e.id_sucursal, count(e.rut_empleado) as num_empleados from (select rut_empleado, id_sucursal from Empleado where cargo="Rentador" and id_sucursal="10") as e group by e.id_sucursal;
+select e.id_sucursal, count(e.rut_empleado) as num_empleados from (select rut_empleado, id_sucursal from Empleado where cargo="Rentador" and id_sucursal="X") as e group by e.id_sucursal;
 
 
 3.-
-select * from (select r.rut_cliente, timestampdiff(month, r.fecha_retiro, r.fecha_devolucion ) as meses_rentado from Renta as r inner join Vehiculo as v on r.matricula=v.matricula where v.precio>20000) as sub where sub.meses_rentado>6;
+select * from (select r.rut_cliente, timestampdiff(month, r.fecha_retiro, r.fecha_devolucion ) as meses_rentado from Renta as r inner join Vehiculo as v on r.matricula=v.matricula where v.precio>Y) as sub where sub.meses_rentado>X;
 
 
 4.-
-select c.rut_cliente,nc.primer_nom, timestampdiff(YEAR,c.fecha_nac,CURDATE()) as edad from Renta as r inner join Cliente as c on r.rut_cliente=c.rut_cliente inner join Nombre_cliente as nc on c.rut_cliente=nc.rut_cliente where r.matricula in (select matricula from Siniestro where fecha_siniestro between ('2014-03-01') and ('2015-03-01'));
+select c.rut_cliente,nc.primer_nom, timestampdiff(YEAR,c.fecha_nac,CURDATE()) as edad from Renta as r inner join Cliente as c on r.rut_cliente=c.rut_cliente inner join Nombre_cliente as nc on c.rut_cliente=nc.rut_cliente where r.matricula in (select matricula from Siniestro where fecha_siniestro between (FECHA_X) and (FECHA_Y));
 
 
 5.-
-select r.rut_cliente, count(r.rut_cliente) as veces_renta from Renta as r group by r.rut_cliente having (veces_renta)>10;
+select r.rut_cliente, count(r.rut_cliente) as veces_renta from Renta as r group by r.rut_cliente having (veces_renta)>X;
 
 
 6.-
-select v.color, v.tipo from Vehiculo as v inner join Renta as r on v.matricula=r.matricula inner join ( select sub_1.rut_cliente, veces_renta from (select r.rut_cliente, count(r.rut_cliente) as veces_renta from Renta as r group by r.rut_cliente) as sub_1 inner join (select subf.rut_cliente, subf.edad from (select rut_cliente, timestampdiff(YEAR,fecha_nac,CURDATE()) as edad from Cliente) as subf where subf.edad>40) as edad_elegida on sub_1.rut_cliente=edad_elegida.rut_cliente  where sub_1.veces_renta=(select max(sub_2.veces_renta) as max_rentado from (select count(r.rut_cliente) as veces_renta from Renta as r inner join (select rut_cliente from Cliente where timestampdiff(YEAR,fecha_nac,CURDATE())>40 ) as c on c.rut_cliente=r.rut_cliente group by r.rut_cliente) as sub_2) ) as mega_sub  on r.rut_cliente=mega_sub.rut_cliente;
+select v.color, v.tipo from Vehiculo as v inner join Renta as r on v.matricula=r.matricula inner join ( select sub_1.rut_cliente, veces_renta from (select r.rut_cliente, count(r.rut_cliente) as veces_renta from Renta as r group by r.rut_cliente) as sub_1 inner join (select subf.rut_cliente, subf.edad from (select rut_cliente, timestampdiff(YEAR,fecha_nac,CURDATE()) as edad from Cliente) as subf where subf.edad>X) as edad_elegida on sub_1.rut_cliente=edad_elegida.rut_cliente  where sub_1.veces_renta=(select max(sub_2.veces_renta) as max_rentado from (select count(r.rut_cliente) as veces_renta from Renta as r inner join (select rut_cliente from Cliente where timestampdiff(YEAR,fecha_nac,CURDATE())>X ) as c on c.rut_cliente=r.rut_cliente group by r.rut_cliente) as sub_2) ) as mega_sub  on r.rut_cliente=mega_sub.rut_cliente;
 
 
 7.-
-select tipo from Siniestro as s inner join Vehiculo as v on s.matricula=v.matricula group by v.tipo having count(v.matricula)=(select max(sub_1.vehiculos) from (select count(v.matricula) as vehiculos from (select * from Siniestro where fecha_siniestro="2019-01-01") as s inner join Vehiculo as v on s.matricula=v.matricula group by v.tipo) as sub_1);
+select tipo from Siniestro as s inner join Vehiculo as v on s.matricula=v.matricula group by v.tipo having count(v.matricula)=(select max(sub_1.vehiculos) from (select count(v.matricula) as vehiculos from (select * from Siniestro where fecha_siniestro=X) as s inner join Vehiculo as v on s.matricula=v.matricula group by v.tipo) as sub_1);
 
 
 8.-
 
-select ds.ciudad, count(v.matricula) as cantidad_marca from (select * from Vehiculo where marca="Toyota") as v inner join Direccion_sucursal as ds on v.id_sucursal=ds.id_sucursal group by v.id_sucursal having cantidad_marca=(select max(sub_1.cantidad_marca) from (select count(v.matricula) as cantidad_marca from (select * from Vehiculo where marca="Toyota") as v group by v.id_sucursal) as sub_1);
+select v.id_sucursal, count(v.matricula) as cantidad_marca from (select * from Vehiculo where marca=X) as v group by v.id_sucursal having cantidad_marca=(select max(sub_1.cantidad_marca) from (select count(v.matricula) as cantidad_marca from (select * from Vehiculo where marca=X) as v group by v.id_sucursal) as sub_1);
 
 9.-
 
@@ -73,7 +73,7 @@ select tipo, modelo, marca, precio, promedio_precio from (select tipo, modelo, m
 
 11.-
 
-select marca from Vehiculo where id_sucursal=40 and marca not in ( select marca from Vehiculo where id_sucursal=50);
+select marca from Vehiculo where id_sucursal=N and marca not in ( select marca from Vehiculo where id_sucursal=R);
 
 
 
