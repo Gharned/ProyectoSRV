@@ -15,7 +15,7 @@ export class AuthGuard implements CanActivate {
   constructor(private router: Router, private authenticationService: AuthenticationService) {  }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if( (state.url.startsWith('/employee/menu-rentador')) || (state.url.startsWith('/employee/rents-list')) || (state.url.startsWith('/employee/info-rent')) ){ //vistas del rentador
+    if( (state.url.startsWith('/employee/menu-rentador')) ){ //vistas del rentador
       if (this.authenticationService.isAuthenticatedOnRentador()) {  //se pregunta si tiene un cargo de rentador para entrar a esa vista
         return true;// logged in so return true
       }else{
